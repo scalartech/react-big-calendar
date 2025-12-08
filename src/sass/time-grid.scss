@@ -110,6 +110,7 @@
   border-top: 2px solid $calendar-border;
   overflow-y: auto;
   position: relative;
+  display: none;
 
   > .rbc-time-gutter {
     flex: none;
