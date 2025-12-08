@@ -51,10 +51,10 @@
 }
 
 .rbc-month-row {
-  display: inline-table !important;
-  flex: 0 0 0 !important;
+  display: inline-table;
+  flex: 0 0 0;
   padding: 8px 0;
-  min-height: 100px !important;
+  min-height: 100px;
   position: relative;
   flex-basis: 0px;
   overflow: hidden;
