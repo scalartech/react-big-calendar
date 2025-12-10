@@ -31,14 +31,7 @@ jobs:
       - name: Build
         run: yarn build
 
-      - run: npm ci
-
-      
-      - run: npm test
-      - name: Set package.json version from tag
-        run: |
-          TAG="${GITHUB_REF#refs/tags/v}"
-          npm version "$TAG" --no-git-tag-version
+      - run: yarn test
 
       - run: npm publish
 
