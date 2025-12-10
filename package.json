@@ -1,6 +1,6 @@
 {
   "name": "@scalartech/react-big-calendar",
-  "version": "1.19.4+scalar.1",
+  "version": "1.19.4-scalar.1",
   "description": "Calendar! with events. Scalar Version",
   "author": {
     "name": "Jason Quense",
