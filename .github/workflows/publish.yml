@@ -1,0 +1,44 @@
+# Publish to npm whenever a tag is pushed
+name: Publish to npm
+on:
+  push:
+    tags: v*
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: 
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install Dependencies
+        run: yarn install
+
+      # test and build prior to release
+      - name: Unit Test & Linting
+        run: yarn test
+
+      - name: Build
+        run: yarn build
+
+      - run: npm ci
+
+      
+      - run: npm test
+      - name: Set package.json version from tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/v}"
+          npm version "$TAG" --no-git-tag-version
+
+      - run: npm publish
+
