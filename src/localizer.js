@@ -199,7 +199,8 @@ export function mergeWithDefaults(
   localizer,
   culture,
   formatOverrides,
-  messages
+  messages,
+  localizerOverrides = {}
 ) {
   const formats = {
     ...localizer.formats,
@@ -208,6 +209,7 @@ export function mergeWithDefaults(
 
   return {
     ...localizer,
+    ...localizerOverrides,
     messages,
     startOfWeek: () => localizer.startOfWeek(culture),
     format: (value, format) =>
