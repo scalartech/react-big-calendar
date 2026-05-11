@@ -884,6 +884,15 @@ class Calendar extends React.Component {
      * or custom `Function(events, minimumStartDifference, slotMetrics, accessors)`
      */
     dayLayoutAlgorithm: DayLayoutAlgorithmPropType,
+
+    /**
+     * Customize event sort order used by month/week/day all-day rows and time-grid all-day sections.
+     *
+     * ```js
+     * ({ evtA, evtB }) => number
+     * ```
+     */
+    sortEvents: PropTypes.func,
   }
 
   static defaultProps = {
@@ -951,12 +960,15 @@ class Calendar extends React.Component {
     messages = {},
     components = {},
     formats = {},
+    sortEvents,
   }) {
     let names = viewNames(views)
     const msgs = message(messages)
     return {
       viewNames: names,
-      localizer: mergeWithDefaults(localizer, culture, formats, msgs),
+      localizer: mergeWithDefaults(localizer, culture, formats, msgs, {
+        sortEvents: sortEvents || localizer.sortEvents,
+      }),
       getters: {
         eventProp: (...args) =>
           (eventPropGetter && eventPropGetter(...args)) || {},
