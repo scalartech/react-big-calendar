@@ -204,6 +204,19 @@ class Calendar extends React.Component {
     allDayAccessor: accessor,
 
     /**
+     * Groups events into separate visual rows in month/week all-day layouts.
+     * Events with different group values will not be packed into the same row,
+     * even when their date ranges do not overlap.
+     *
+     * ```js
+     * string | (event: Object) => any
+     * ```
+     *
+     * @type {(func|string)}
+     */
+    eventGroupAccessor: accessor,
+
+    /**
      * The start date/time of the event. Must resolve to a JavaScript `Date` object.
      *
      * ```js
@@ -913,6 +926,7 @@ class Calendar extends React.Component {
     titleAccessor: 'title',
     tooltipAccessor: 'title',
     allDayAccessor: 'allDay',
+    eventGroupAccessor: null,
     startAccessor: 'start',
     endAccessor: 'end',
     resourceAccessor: 'resourceId',
@@ -942,6 +956,7 @@ class Calendar extends React.Component {
     startAccessor,
     endAccessor,
     allDayAccessor,
+    eventGroupAccessor,
     tooltipAccessor,
     titleAccessor,
     resourceAccessor,
@@ -995,6 +1010,7 @@ class Calendar extends React.Component {
         start: wrapAccessor(startAccessor),
         end: wrapAccessor(endAccessor),
         allDay: wrapAccessor(allDayAccessor),
+        eventGroup: wrapAccessor(eventGroupAccessor),
         tooltip: wrapAccessor(tooltipAccessor),
         title: wrapAccessor(titleAccessor),
         resource: wrapAccessor(resourceAccessor),
