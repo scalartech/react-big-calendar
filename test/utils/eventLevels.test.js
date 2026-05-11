@@ -54,6 +54,41 @@ describe('eventSegments', () => {
     expect(result.event).toEqual(event)
   })
 
+  test('it defaults group to null without an eventGroup accessor', () => {
+    const range = [
+      new Date(2017, 0, 8),
+      new Date(2017, 0, 9),
+      new Date(2017, 0, 10),
+      new Date(2017, 0, 11),
+    ]
+
+    const result = eventSegments(event, range, accessors, localizer)
+
+    expect(result.group).toBeNull()
+  })
+
+  test('it sets group from the eventGroup accessor', () => {
+    const range = [
+      new Date(2017, 0, 8),
+      new Date(2017, 0, 9),
+      new Date(2017, 0, 10),
+      new Date(2017, 0, 11),
+    ]
+    const accessorsWithGroup = {
+      ...accessors,
+      eventGroup: (e) => e.group,
+    }
+
+    const result = eventSegments(
+      { ...event, group: 'resource-a' },
+      range,
+      accessorsWithGroup,
+      localizer
+    )
+
+    expect(result.group).toBe('resource-a')
+  })
+
   describe('when the event spans the full range', () => {
     const range = [
       new Date(2017, 0, 8),
