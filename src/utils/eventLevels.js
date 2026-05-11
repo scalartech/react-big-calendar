@@ -32,6 +32,7 @@ export function eventSegments(event, range, accessors, localizer) {
     span,
     left: padding + 1,
     right: Math.max(padding + span, 1),
+    group: accessors.eventGroup(event),
   }
 }
 
@@ -45,7 +46,8 @@ export function eventLevels(rowSegments, limit = Infinity) {
   for (i = 0; i < rowSegments.length; i++) {
     seg = rowSegments[i]
 
-    for (j = 0; j < levels.length; j++) if (!segsOverlap(seg, levels[j])) break
+    for (j = 0; j < levels.length; j++)
+      if (segsShareGroup(seg, levels[j]) && !segsOverlap(seg, levels[j])) break
 
     if (j >= limit) {
       extra.push(seg)
@@ -76,6 +78,10 @@ export function segsOverlap(seg, otherSegs) {
   )
 }
 
+export function segsShareGroup(seg, otherSegs) {
+  return otherSegs.every((otherSeg) => otherSeg.group === seg.group)
+}
+
 export function sortWeekEvents(events, accessors, localizer) {
   const base = [...events]
   const multiDayEvents = []
@@ -103,11 +109,13 @@ export function sortEvents(eventA, eventB, accessors, localizer) {
     start: accessors.start(eventA),
     end: accessors.end(eventA),
     allDay: accessors.allDay(eventA),
+    group: accessors.eventGroup(eventA),
   }
   const evtB = {
     start: accessors.start(eventB),
     end: accessors.end(eventB),
     allDay: accessors.allDay(eventB),
+    group: accessors.eventGroup(eventB),
   }
   return localizer.sortEvents({ evtA, evtB })
 }
