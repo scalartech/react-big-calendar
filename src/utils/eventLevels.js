@@ -1,5 +1,9 @@
 import findIndex from 'lodash/findIndex'
 
+function eventGroup(event, accessors) {
+  return accessors.eventGroup ? accessors.eventGroup(event) : null
+}
+
 export function endOfRange({ dateRange, unit = 'day', localizer }) {
   return {
     first: dateRange[0],
@@ -32,7 +36,7 @@ export function eventSegments(event, range, accessors, localizer) {
     span,
     left: padding + 1,
     right: Math.max(padding + span, 1),
-    group: accessors.eventGroup(event),
+    group: eventGroup(event, accessors),
   }
 }
 
@@ -109,13 +113,13 @@ export function sortEvents(eventA, eventB, accessors, localizer) {
     start: accessors.start(eventA),
     end: accessors.end(eventA),
     allDay: accessors.allDay(eventA),
-    group: accessors.eventGroup(eventA),
+    group: eventGroup(eventA, accessors),
   }
   const evtB = {
     start: accessors.start(eventB),
     end: accessors.end(eventB),
     allDay: accessors.allDay(eventB),
-    group: accessors.eventGroup(eventB),
+    group: eventGroup(eventB, accessors),
   }
   return localizer.sortEvents({ evtA, evtB })
 }
